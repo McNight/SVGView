@@ -44,6 +44,10 @@ public struct SVGView: View {
         return svg?.getNode(byId: id)
     }
 
+    public func getNode(matching: (String?) -> Bool) -> SVGNode? {
+        return svg?.getNode(matching: matching)
+    }
+
     public var body: some View {
         svg?.toSwiftUI()
     }
