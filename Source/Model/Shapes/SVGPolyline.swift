@@ -1,9 +1,9 @@
 import SwiftUI
-import Combine
 
-public class SVGPolyline: SVGShape, ObservableObject {
+@Observable
+public final class SVGPolyline: SVGShape {
 
-    @Published public var points: [CGPoint]
+    public var points: [CGPoint]
 
     public init(_ points: [CGPoint]) {
         self.points = points
@@ -51,8 +51,7 @@ public class SVGPolyline: SVGShape, ObservableObject {
 }
 
 struct SVGPolylineView: View {
-
-    @ObservedObject var model = SVGPolyline()
+    let model: SVGPolyline
 
     public var body: some View {
         path?.toSwiftUI(model: model)

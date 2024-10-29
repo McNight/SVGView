@@ -6,11 +6,9 @@
 //
 
 import SwiftUI
-import Combine
 
-public class SVGDataImage: SVGImage, ObservableObject {
-
-    @Published public var data: Data
+public final class SVGDataImage: SVGImage {
+    public let data: Data
 
     public init(x: CGFloat = 0, y: CGFloat = 0, width: CGFloat = 0, height: CGFloat = 0, data: Data) {
         self.data = data
@@ -18,7 +16,7 @@ public class SVGDataImage: SVGImage, ObservableObject {
     }
 
     override func serialize(_ serializer: Serializer) {
-        serializer.add("data", "\(data.base64EncodedString())")
+        serializer.add("data", data.base64EncodedString())
         super.serialize(serializer)
     }
 
@@ -45,7 +43,7 @@ struct SVGDataImageView: View {
     }
 #endif
 
-    @ObservedObject var model: SVGDataImage
+    let model: SVGDataImage
 
     public var body: some View {
         image

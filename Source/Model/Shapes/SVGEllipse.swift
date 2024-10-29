@@ -1,12 +1,12 @@
 import SwiftUI
-import Combine
 
-public class SVGEllipse: SVGShape, ObservableObject {
+@Observable
+public class SVGEllipse: SVGShape {
 
-    @Published public var cx: CGFloat
-    @Published public var cy: CGFloat
-    @Published public var rx: CGFloat
-    @Published public var ry: CGFloat
+    public var cx: CGFloat
+    public var cy: CGFloat
+    public var rx: CGFloat
+    public var ry: CGFloat
 
     public init(cx: CGFloat = 0, cy: CGFloat = 0, rx: CGFloat = 0, ry: CGFloat = 0) {
         self.cx = cx
@@ -30,8 +30,7 @@ public class SVGEllipse: SVGShape, ObservableObject {
 }
 
 struct SVGEllipseView: View {
-
-    @ObservedObject var model = SVGEllipse()
+    let model: SVGEllipse
 
     public var body: some View {
         Ellipse()

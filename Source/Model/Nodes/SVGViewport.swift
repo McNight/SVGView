@@ -1,33 +1,20 @@
 import SwiftUI
-import Combine
 
-public class SVGViewport: SVGGroup {
+@Observable
+public final class SVGViewport: SVGGroup {
 
-    @Published public var width: SVGLength {
-        willSet {
-            self.objectWillChange.send()
-        }
-    }
+    public var width: SVGLength
+    public var height: SVGLength
+    public var viewBox: CGRect?
+    public var preserveAspectRatio: SVGPreserveAspectRatio
 
-    @Published public var height: SVGLength {
-        willSet {
-            self.objectWillChange.send()
-        }
-    }
-
-    @Published public var viewBox: CGRect? {
-        willSet {
-            self.objectWillChange.send()
-        }
-    }
-
-    @Published public var preserveAspectRatio: SVGPreserveAspectRatio {
-        willSet {
-            self.objectWillChange.send()
-        }
-    }
-
-    public init(width: SVGLength, height: SVGLength, viewBox: CGRect? = .none, preserveAspectRatio: SVGPreserveAspectRatio, contents: [SVGNode] = []) {
+    public init(
+        width: SVGLength,
+        height: SVGLength,
+        viewBox: CGRect? = .none,
+        preserveAspectRatio: SVGPreserveAspectRatio,
+        contents: [SVGNode] = []
+    ) {
         self.width = width
         self.height = height
         self.viewBox = viewBox
@@ -59,7 +46,7 @@ public class SVGViewport: SVGGroup {
 
 struct SVGViewportView: View {
 
-    @ObservedObject var model: SVGViewport
+    let model: SVGViewport
 
     public var body: some View {
         GeometryReader { geometry in

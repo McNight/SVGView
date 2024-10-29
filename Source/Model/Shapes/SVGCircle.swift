@@ -1,11 +1,12 @@
 import SwiftUI
 import Combine
 
-public class SVGCircle: SVGShape, ObservableObject {
+@Observable
+public final class SVGCircle: SVGShape {
 
-    @Published public var cx: CGFloat
-    @Published public var cy: CGFloat
-    @Published public var r: CGFloat
+    public var cx: CGFloat
+    public var cy: CGFloat
+    public var r: CGFloat
 
     public init(cx: CGFloat = 0, cy: CGFloat = 0, r: CGFloat = 0) {
         self.cx = cx
@@ -28,8 +29,7 @@ public class SVGCircle: SVGShape, ObservableObject {
 }
 
 struct SVGCircleView: View {
-
-    @ObservedObject var model = SVGCircle()
+    let model: SVGCircle
 
     public var body: some View {
         Circle()

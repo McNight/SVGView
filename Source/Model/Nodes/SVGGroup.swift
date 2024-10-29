@@ -1,11 +1,19 @@
 import SwiftUI
-import Combine
+import Observation
 
-public class SVGGroup: SVGNode, ObservableObject {
+@Observable
+public class SVGGroup: SVGNode {
 
-    @Published public var contents: [SVGNode] = []
+    public var contents: [SVGNode] = []
 
-    public init(contents: [SVGNode], transform: CGAffineTransform = .identity, opaque: Bool = true, opacity: Double = 1, clip: SVGUserSpaceNode? = nil, mask: SVGNode? = nil) {
+    public init(
+        contents: [SVGNode],
+        transform: CGAffineTransform = .identity,
+        opaque: Bool = true,
+        opacity: Double = 1,
+        clip: SVGUserSpaceNode? = nil,
+        mask: SVGNode? = nil
+    ) {
         super.init(transform: transform, opaque: opaque, opacity: opacity, clip: clip, mask: mask)
         self.contents = contents
     }
@@ -14,7 +22,19 @@ public class SVGGroup: SVGNode, ObservableObject {
         contents.map { $0.bounds() }.reduce(contents.first?.bounds() ?? CGRect.zero) { $0.union($1) }
     }
 
-    override public func getNode(byId id: String) -> SVGNode? {
+    override final public func getNode(matching: (String?) -> Bool) -> SVGNode? {
+        if let node = super.getNode(matching: matching) {
+            return node
+        }
+        for node in contents {
+            if let node = node.getNode(matching: matching) {
+                return node
+            }
+        }
+        return .none
+    }
+
+    override final public func getNode(byId id: String) -> SVGNode? {
         if let node = super.getNode(byId: id) {
             return node
         }
@@ -38,7 +58,7 @@ public class SVGGroup: SVGNode, ObservableObject {
 
 struct SVGGroupView: View {
 
-    @ObservedObject var model: SVGGroup
+    let model: SVGGroup
 
     public var body: some View {
         ZStack {
@@ -52,4 +72,3 @@ struct SVGGroupView: View {
         .applyNodeAttributes(model: model)
     }
 }
-

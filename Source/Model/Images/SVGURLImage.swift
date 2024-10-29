@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public class SVGURLImage: SVGImage, ObservableObject {
+public final class SVGURLImage: SVGImage {
 
     public let src: String
     public let data: Data?
@@ -30,7 +30,7 @@ public class SVGURLImage: SVGImage, ObservableObject {
 
 struct SVGUrlImageView: View {
 
-    @ObservedObject var model: SVGURLImage
+    let model: SVGURLImage
 
 #if os(OSX)
     @ViewBuilder

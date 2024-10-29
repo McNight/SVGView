@@ -1,18 +1,26 @@
 import SwiftUI
 import Combine
 
+@Observable
 public class SVGNode: SerializableElement {
 
-    @Published public var transform: CGAffineTransform = CGAffineTransform.identity
-    @Published public var opaque: Bool
-    @Published public var opacity: Double
-    @Published public var clip: SVGNode?
-    @Published public var mask: SVGNode?
-    @Published public var id: String?
+    public var transform: CGAffineTransform = CGAffineTransform.identity
+    public var opaque: Bool
+    public var opacity: Double
+    public var clip: SVGNode?
+    public var mask: SVGNode?
+    public var id: String?
 
     var gestures = [AnyGesture<()>]()
 
-    public init(transform: CGAffineTransform = .identity, opaque: Bool = true, opacity: Double = 1, clip: SVGNode? = nil, mask: SVGNode? = nil, id: String? = nil) {
+    public init(
+        transform: CGAffineTransform = .identity,
+        opaque: Bool = true,
+        opacity: Double = 1,
+        clip: SVGNode? = nil,
+        mask: SVGNode? = nil,
+        id: String? = nil
+    ) {
         self.transform = transform
         self.opaque = opaque
         self.opacity = opacity
@@ -28,6 +36,10 @@ public class SVGNode: SerializableElement {
     
     public func frame() -> CGRect {
         fatalError()
+    }
+
+    public func getNode(matching: (String?) -> Bool) -> SVGNode? {
+        return matching(id) ? self : .none
     }
 
     public func getNode(byId id: String) -> SVGNode? {
@@ -101,5 +113,11 @@ extension SVGNode {
         default:
             fatalError("Base SVGNode is not convertable to SwiftUI")
         }
+    }
+}
+
+extension SVGNode {
+    public subscript(id: String) -> SVGNode? {
+        return getNode(byId: id)
     }
 }

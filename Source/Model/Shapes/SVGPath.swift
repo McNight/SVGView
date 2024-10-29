@@ -1,10 +1,10 @@
 import SwiftUI
-import Combine
 
-public class SVGPath: SVGShape, ObservableObject {
+@Observable
+public final class SVGPath: SVGShape {
 
-    @Published public var segments: [PathSegment]
-    @Published public var fillRule: CGPathFillRule
+    public var segments: [PathSegment]
+    public var fillRule: CGPathFillRule
 
     public init(segments: [PathSegment] = [], fillRule: CGPathFillRule = .winding) {
         self.segments = segments
@@ -32,8 +32,7 @@ public class SVGPath: SVGShape, ObservableObject {
 }
 
 struct SVGPathView: View {
-
-    @ObservedObject var model = SVGPath()
+    let model: SVGPath
 
     public var body: some View {
         model.toBezierPath().toSwiftUI(model: model, eoFill: model.fillRule == .evenOdd)

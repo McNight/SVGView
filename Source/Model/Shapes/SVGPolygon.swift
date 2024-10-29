@@ -1,9 +1,9 @@
 import SwiftUI
-import Combine
 
-public class SVGPolygon: SVGShape, ObservableObject {
+@Observable
+public final class SVGPolygon: SVGShape {
 
-    @Published public var points: [CGPoint]
+    public var points: [CGPoint]
 
     public init(_ points: [CGPoint]) {
         self.points = points
@@ -51,10 +51,8 @@ public class SVGPolygon: SVGShape, ObservableObject {
 }
 
 struct SVGPolygonView: View {
+    let model: SVGPolygon
 
-    @ObservedObject var model = SVGPolygon()
-
-    @ViewBuilder
     public var body: some View {
         path?.toSwiftUI(model: model)
     }
@@ -71,4 +69,3 @@ struct SVGPolygonView: View {
         return path
     }
 }
-

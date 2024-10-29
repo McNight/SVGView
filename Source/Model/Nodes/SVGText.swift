@@ -1,13 +1,13 @@
 import SwiftUI
-import Combine
 
-public class SVGText: SVGNode, ObservableObject {
+@Observable
+public final class SVGText: SVGNode {
 
-    @Published public var text: String
-    @Published public var font: SVGFont?
-    @Published public var fill: SVGPaint?
-    @Published public var stroke: SVGStroke?
-    @Published public var textAnchor: HorizontalAlignment = .leading
+    public var text: String
+    public var font: SVGFont?
+    public var fill: SVGPaint?
+    public var stroke: SVGStroke?
+    public var textAnchor: HorizontalAlignment = .leading
 
     public init(text: String, font: SVGFont? = nil, fill: SVGPaint? = SVGColor.black, stroke: SVGStroke? = nil, textAnchor: HorizontalAlignment = .leading, transform: CGAffineTransform = .identity, opaque: Bool = true, opacity: Double = 1, clip: SVGUserSpaceNode? = nil, mask: SVGNode? = nil) {
         self.text = text
@@ -32,7 +32,7 @@ public class SVGText: SVGNode, ObservableObject {
 
 struct SVGTextView: View {
 
-    @ObservedObject var model: SVGText
+    let model: SVGText
 
     public var body: some View {
         if let stroke = model.stroke, let fill = model.fill {
